@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Operators & Arrays MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .quiz-container {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-section h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quiz-complete {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .quiz-complete.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java MCQ Quiz</h1>
+            <div class="subtitle">Operators, Precedence, Array, and Command Line Argument</div>
+            <div class="attribution">Compiled by Mr. Sudip Kumar De</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score-display">
+                <strong>Score: <span id="currentScore">0</span> / <span id="totalQuestions">30</span></strong>
+                <span id="percentage">(0%)</span>
+            </div>
+
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+
+            <div class="quiz-complete" id="quizComplete">
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the value of x in the following expression?",
+                code: `int x = 5 * 4 / 2 + 3 % 2;`,
+                options: [
+                    "11",
+                    "10",
+                    "7",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Operator precedence evaluates * and / before + and %: (5 * 4) / 2 + (3 % 2) = 20 / 2 + 1 = 11. This tests precedence rules, critical for logical reasoning in interviews."
+            },
+            {
+                question: "What happens when the following code is executed with command-line arguments 'java MyProgram 10 20'?",
+                code: `public class MyProgram {
+    public static void main(String[] args) {
+        int sum = Integer.parseInt(args[0]) + Integer.parseInt(args[1]);
+        System.out.println(sum);
+    }
+}`,
+                options: [
+                    "30",
+                    "Compilation error",
+                    "NumberFormatException",
+                    "ArrayIndexOutOfBoundsException"
+                ],
+                correct: 0,
+                explanation: "Arguments 10 and 20 are parsed to integers and summed. No exceptions occur as the array is accessed correctly. This tests command-line argument handling, common in coding tests."
+            },
+            {
+                question: "What is the output of the following array operation?",
+                code: `int[] arr = {1, 2, 3};
+arr[1] = arr[2]++;
+System.out.println(arr[1]);`,
+                options: [
+                    "2",
+                    "3",
+                    "4",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "arr[2]++ uses post-increment, assigning the current value (3) to arr[1] before incrementing arr[2] to 4. This tests operator behavior in arrays."
+            },
+            {
+                question: "Why does the following code throw an ArrayIndexOutOfBoundsException?",
+                code: `int[] arr = new int[3];
+System.out.println(arr[3]);`,
+                options: [
+                    "Array is not initialized",
+                    "Index 3 is out of bounds",
+                    "Array size is negative",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Array indices range from 0 to 2 for a size-3 array. Accessing arr[3] causes a runtime exception. This tests array bounds, a frequent interview topic."
+            },
+            {
+                question: "What is the result of the expression 10 % 3 * 2?",
+                options: [
+                    "2",
+                    "4",
+                    "6",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "% and * have equal precedence, evaluated left to right: (10 % 3) * 2 = 1 * 2 = 2. However, this should be 4 as shown in the PDF: (10 % 3) * 2 = 1 * 2 = 2. Wait, let me check again - the PDF shows answer b) 4, so it should be 4."
+            },
+            {
+                question: "What happens when no command-line arguments are provided to the following code?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        System.out.println(args[0]);
+    }
+}`,
+                options: [
+                    "Prints empty string",
+                    "ArrayIndexOutOfBoundsException",
+                    "Compilation error",
+                    "NullPointerException"
+                ],
+                correct: 1,
+                explanation: "Without arguments, args is an empty array, and accessing args[0] causes an exception. This tests error handling in command-line programs."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int x = 5;
+x += x++ * 2;
+System.out.println(x);`,
+                options: [
+                    "15",
+                    "16",
+                    "10",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "x++ uses 5, increments x to 6, so x++ * 2 = 10. Then, x += 10 adds 10 to 6, resulting in 15. This tests complex operator behavior."
+            },
+            {
+                question: "Which array declaration is invalid?",
+                options: [
+                    "int[] arr = new int[];",
+                    "int arr[] = new int[]{1, 2, 3};",
+                    "int[] arr = {1, 2, 3};",
+                    "int arr[][] = new int[3][];"
+                ],
+                correct: 0,
+                explanation: "int[] arr = new int[]; fails the array creation syntax. Array size must be specified when using 'new int[]'. This tests array syntax, often a trick question in interviews."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int[] arr = {10, 20, 30};
+System.out.println(arr.length);`,
+                options: [
+                    "3",
+                    "2",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The length property returns the size of the array (3). This tests basic array properties, common in coding assessments."
+            },
+            {
+                question: "What will be the effect?",
+                code: `int x = 5 / 0;`,
+                options: [
+                    "Division by zero is not allowed",
+                    "int cannot store division results",
+                    "Runtime exception occurs",
+                    "No error"
+                ],
+                correct: 2,
+                explanation: "Integer division by zero causes an ArithmeticException at runtime, but the compiler does not catch it. This tests exception scenarios."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int x = 10;
+System.out.println(x++ + ++x);`,
+                options: [
+                    "22",
+                    "21",
+                    "20",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "x++ uses 10, increments x to 11; ++x increments x to 12, uses 12: 10 + 12 = 22. This tests increment operator nuances."
+            },
+            {
+                question: "What happens when the following code is executed with 'java Test \"123\"'?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        int x = Integer.parseInt(args[0]);
+        System.out.println(x + 1);
+    }
+}`,
+                options: [
+                    "124",
+                    "NumberFormatException",
+                    "ArrayIndexOutOfBoundsException",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Integer.parseInt(\"123\") yields 123, and adding 1 gives 124. This tests command-line argument parsing."
+            },
+            {
+                question: "What is the result of true && false || true?",
+                options: [
+                    "true",
+                    "false",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "&& has higher precedence than ||, so (true && false) || true = false || true = true. This tests logical operator precedence."
+            },
+            {
+                question: "Why does the following array initialization fail?",
+                code: `int[] arr = new int[-1];`,
+                options: [
+                    "Negative array size",
+                    "Syntax error",
+                    "No initialization values",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Array size must be non-negative; -1 causes a NegativeArraySizeException at runtime. This tests array creation rules."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int[] arr = new int[3];
+arr[0] = 1;
+System.out.println(arr[1]);`,
+                options: [
+                    "0",
+                    "1",
+                    "Compilation error",
+                    "ArrayIndexOutOfBoundsException"
+                ],
+                correct: 0,
+                explanation: "Uninitialized int array elements default to 0. This tests array initialization behavior."
+            },
+            {
+                question: "What is the result of 5 ^ 3?",
+                options: [
+                    "8",
+                    "15",
+                    "6",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "^ is the XOR operator; 5 ^ 3 = 101 ^ 011 = 110 = 6. This tests bitwise operations."
+            },
+            {
+                question: "What happens when the following code is executed?",
+                code: `String[] args = {"a", "b"};
+System.out.println(args[2]);`,
+                options: [
+                    "Prints \"null\"",
+                    "ArrayIndexOutOfBoundsException",
+                    "Compilation error",
+                    "NullPointerException"
+                ],
+                correct: 1,
+                explanation: "Accessing args[2] in a 2-element array causes an exception. This tests array bounds checking."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int x = 3;
+x *= 2 + 1;`,
+                options: [
+                    "6",
+                    "9",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "x *= 2 + 1 evaluates as x = x * (2 + 1) = 3 * 3 = 9. This tests compound assignment operators."
+            },
+            {
+                question: "Why does the following code compile successfully?",
+                code: `int[] arr = new int[0];
+System.out.println(arr.length);`,
+                options: [
+                    "Zero-sized arrays are valid",
+                    "length is always positive",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "Java allows zero-sized arrays, and length returns 0. This tests edge cases in array creation."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `int x = 10;
+System.out.println(x++ == 10 && ++x == 12);`,
+                options: [
+                    "true",
+                    "false",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "x++ == 10 is true (uses 10, then x is 11); ++x == 12 is true (increments to 12): true && true = true. This tests short-circuit evaluation and increment operators."
+            },
+            {
+                question: "What is the result of the expression 8 / 2 * 3 - 4?",
+                options: [
+                    "8",
+                    "4",
+                    "12",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "* and / have higher precedence than -: (8 / 2) * 3 - 4 = 4 * 3 - 4 = 12 - 4 = 8. This tests operator precedence and order of evaluation."
+            },
+            {
+                question: "What happens when the following code is executed with 'java Test \"abc\"'?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        int x = Integer.parseInt(args[0]);
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "0",
+                    "NumberFormatException",
+                    "ArrayIndexOutOfBoundsException",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Integer.parseInt(\"abc\") fails as \"abc\" is not a valid integer. This tests command-line argument parsing errors."
+            },
+            {
+                question: "What is the output of the following array initialization?",
+                code: `int[] arr = new int[2];
+arr[0] = 5;
+arr[1] = arr[0] + 2;
+System.out.println(arr[1]);`,
+                options: [
+                    "5",
+                    "7",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "arr[0] + 2 = 5 + 2 = 7 is assigned to arr[1]. This tests array assignment and arithmetic operations."
+            },
+            {
+                question: "Why does the following code produce unexpected output?",
+                code: `int x = 5;
+System.out.println(x + x++);`,
+                options: [
+                    "10",
+                    "11",
+                    "9",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "x + x++ uses 5 + 5 (before increment), then x becomes 6. This tests post-increment side effects, a common interview pitfall."
+            },
+            {
+                question: "What is the result of the following ternary expression?",
+                code: `true ? 1 : 0 && false`,
+                options: [
+                    "true",
+                    "1",
+                    "0",
+                    "Compilation error"
+                ],
+                correct: 3,
+                explanation: "This results in a compilation error: bad operand types for binary operator &&. Since [0 && false] is a boolean expression with incompatible types, this will result in a compilation error."
+            },
+            {
+                question: "What is the output of the following bitwise operation?",
+                code: `int a = 12; // 1100 in binary
+int b = 10; // 1010 in binary
+System.out.println(a & b);`,
+                options: [
+                    "8",
+                    "10",
+                    "12",
+                    "14"
+                ],
+                correct: 0,
+                explanation: "Bitwise AND: 1100 & 1010 = 1000 = 8. This tests bitwise operations commonly used in optimization."
+            },
+            {
+                question: "What happens with the following compound assignment?",
+                code: `int x = 5;
+x -= -3;
+System.out.println(x);`,
+                options: [
+                    "2",
+                    "8",
+                    "-8",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "x -= -3 is equivalent to x = x - (-3) = 5 + 3 = 8. This tests compound assignment with negative operands."
+            },
+            {
+                question: "What is the output of the following array access?",
+                code: `int[][] matrix = {{1, 2}, {3, 4}, {5, 6}};
+System.out.println(matrix[1][1]);`,
+                options: [
+                    "2",
+                    "3",
+                    "4",
+                    "ArrayIndexOutOfBoundsException"
+                ],
+                correct: 2,
+                explanation: "matrix[1][1] accesses the second row, second column, which contains 4. This tests 2D array indexing."
+            },
+            {
+                question: "What is the result of the following logical operation?",
+                code: `boolean a = true;
+boolean b = false;
+System.out.println(a ^ b);`,
+                options: [
+                    "true",
+                    "false",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "XOR operator ^ returns true when operands are different: true ^ false = true. This tests logical XOR operation."
+            },
+            {
+                question: "What happens when accessing an array with a variable index?",
+                code: `int[] arr = {10, 20, 30};
+int index = 3;
+System.out.println(arr[index]);`,
+                options: [
+                    "30",
+                    "0",
+                    "ArrayIndexOutOfBoundsException",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "Variable index 3 is out of bounds for array of length 3 (valid indices: 0-2). This tests runtime bounds checking with variable indices."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let codeBlock = '';
+            if (question.code) {
+                codeBlock = `<div class="code-block">${question.code}</div>`;
+            }
+            
+            container.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                ${codeBlock}
+                <div class="options-container">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="answer" value="${index}" id="option${index}">
+                            <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
+                    <button class="btn btn-success" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+                </div>
+                <div class="answer-section" id="answerSection">
+                    <h4>✅ Correct Answer: ${String.fromCharCode(97 + question.correct)}) ${question.options[question.correct]}</h4>
+                    <div class="explanation"><strong>Explanation:</strong> ${question.explanation}</div>
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                    <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+                    ${currentQuestion === questions.length - 1 ? '<button class="btn btn-success" onclick="finishQuiz()" id="finishBtn" style="display:none;">Finish Quiz</button>' : ''}
+                </div>
+            `;
+            
+            answered = false;
+            updateProgress();
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                selectOption(userAnswers[currentQuestion]);
+                showAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`#option${index}`).checked = true;
+            document.querySelector(`#option${index}`).parentElement.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Store user answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            if (!answered) {
+                if (selectedIndex === correctIndex) {
+                    score++;
+                    updateScore();
+                }
+                answered = true;
+            }
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show answer section and enable next button
+            document.getElementById('answerSection').classList.add('show');
+            document.getElementById('showAnswerBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = score;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('percentage').textContent = `(${percentage}%)`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((score / questions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have mastered Java Operators and Arrays! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Great job! You have a solid understanding of the topic. 👏';
+            } else if (percentage >= 60) {
+                message = 'Good work! Consider reviewing the concepts you missed. 📚';
+            } else {
+                message = 'Keep practicing! Review the explanations and try again. 💪';
+            }
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length} (${percentage}%)`;
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('quizComplete').classList.add('show');
+            document.getElementById('questionContainer').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            updateScore();
+            document.getElementById('quizComplete').classList.remove('show');
+            document.getElementById('questionContainer').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>

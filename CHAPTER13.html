@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Generics MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .quiz-container {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-section h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quiz-complete {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .quiz-complete.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java MCQ Quiz</h1>
+            <div class="subtitle">Generics in Java</div>
+            <div class="attribution">Compiled by Mr. Sudip Kumar De</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score-display">
+                <strong>Score: <span id="currentScore">0</span> / <span id="totalQuestions">30</span></strong>
+                <span id="percentage">(0%)</span>
+            </div>
+
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+
+            <div class="quiz-complete" id="quizComplete">
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the primary purpose of generics in Java?",
+                options: [
+                    "To improve performance",
+                    "To provide type safety and eliminate casts",
+                    "To create new data types",
+                    "To handle exceptions"
+                ],
+                correct: 1,
+                explanation: "Generics ensure compile-time type checking, reducing runtime errors."
+            },
+            {
+                question: "What is the syntax for a generic class?",
+                options: [
+                    "class MyClass<T>",
+                    "class MyClass(T)",
+                    "class MyClass<T extends Object>",
+                    "class MyClass<T> implements"
+                ],
+                correct: 0,
+                explanation: "<T> defines a type parameter, testing syntax."
+            },
+            {
+                question: "Can a generic type be a primitive type?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with casting",
+                    "Only with wrapper"
+                ],
+                correct: 1,
+                explanation: "Generics work with reference types, not primitives, testing type constraints."
+            },
+            {
+                question: "What is the output of this code with generics?",
+                code: `public class Test<T> {
+    T value;
+    public Test(T value) {
+        this.value = value;
+    }
+    public T getValue() {
+        return value;
+    }
+    public static void main(String[] args) {
+        Test<String> t = new Test<>("Hello");
+        System.out.println(t.getValue());
+    }
+}`,
+                options: [
+                    "Hello",
+                    "null",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The generic class stores and retrieves the String value, testing basic usage."
+            },
+            {
+                question: "What does the extends keyword do in generics?",
+                options: [
+                    "Limits the type parameter to a specific class or interface",
+                    "Extends the class hierarchy",
+                    "Creates a new interface",
+                    "Defines a method"
+                ],
+                correct: 0,
+                explanation: "extends implements bounded types, testing constraints."
+            },
+            {
+                question: "What happens if a generic method is called with an incompatible type?",
+                code: `public class Test {
+    public static <T> void print(T value) {
+        System.out.println(value);
+    }
+    public static void main(String[] args) {
+        print(5);
+        print("Test");
+    }
+}`,
+                options: [
+                    "Compilation error",
+                    "Runtime exception",
+                    "Prints 5 and Test",
+                    "No output"
+                ],
+                correct: 2,
+                explanation: "Generic methods are type-safe and accept any object, testing flexibility."
+            },
+            {
+                question: "Can a generic class have multiple type parameters?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with extends",
+                    "Only with wildcards"
+                ],
+                correct: 0,
+                explanation: "Multiple parameters like <T, U> are allowed, testing syntax."
+            },
+            {
+                question: "What is the purpose of the ? wildcard in generics?",
+                options: [
+                    "To define a new type",
+                    "To represent an unknown type",
+                    "To extend a class",
+                    "To create a method"
+                ],
+                correct: 1,
+                explanation: "Wildcards provide flexibility with unknown types, testing usage."
+            },
+            {
+                question: "What is the output of this code with bounded types?",
+                code: `public class Test {
+    public static <T extends Number> void print(T value) {
+        System.out.println(value);
+    }
+    public static void main(String[] args) {
+        print(10);
+        print(5.5);
+    }
+}`,
+                options: [
+                    "10 5.5",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 0,
+                explanation: "Number bounds allow Integer and Double, testing bounds."
+            },
+            {
+                question: "Can a generic type be used in a static context?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with extends"
+                ],
+                correct: 1,
+                explanation: "Static members cannot use generic type parameters, testing scope."
+            },
+            {
+                question: "What happens if a raw type is used with generics?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        List list = new ArrayList<String>();
+        list.add("Test");
+        System.out.println(list.get(0));
+    }
+}`,
+                options: [
+                    "Test",
+                    "Compilation warning",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "Raw types generate warnings, not errors, testing legacy compatibility."
+            },
+            {
+                question: "What is the output of this code with wildcards?",
+                code: `import java.util.ArrayList;
+import java.util.List;
+public class Test {
+    public static void printList(List<?> list) {
+        for (Object obj : list) {
+            System.out.println(obj);
+        }
+    }
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("Hello");
+        printList(list);
+    }
+}`,
+                options: [
+                    "Hello",
+                    "null",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "? wildcard accepts any type, testing flexibility."
+            },
+            {
+                question: "Can a generic method have a return type?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with extends"
+                ],
+                correct: 0,
+                explanation: "Generic methods can return typed values, testing functionality."
+            },
+            {
+                question: "What is the output of this code with multiple type parameters?",
+                code: `public class Test<K, V> {
+    K key;
+    V value;
+    public Test(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+    public V getValue() {
+        return value;
+    }
+    public static void main(String[] args) {
+        Test<String, Integer> t = new Test<>("Key", 100);
+        System.out.println(t.getValue());
+    }
+}`,
+                options: [
+                    "Key",
+                    "100",
+                    "null",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The generic class handles multiple types, returning the Integer value."
+            },
+            {
+                question: "What does super keyword do in generics?",
+                options: [
+                    "Limits to supertypes",
+                    "Extends a class",
+                    "Creates a new type",
+                    "Defines a method"
+                ],
+                correct: 0,
+                explanation: "? super T allows supertypes, testing wildcard bounds."
+            },
+            {
+                question: "What happens if a generic class is instantiated with a type not matching bounds?",
+                code: `public class Test<T extends Number> {
+    T value;
+    public static void main(String[] args) {
+        Test<String> t = new Test<>();
+    }
+}`,
+                options: [
+                    "Compiles successfully",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 1,
+                explanation: "String does not extend Number, testing bound enforcement."
+            },
+            {
+                question: "Can a generic interface be implemented by a class?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with extends"
+                ],
+                correct: 0,
+                explanation: "Generic interfaces can be implemented with specific types, testing usage."
+            },
+            {
+                question: "What is the output of this code with a generic method?",
+                code: `public class Test {
+    public static <T> T getFirst(T[] array) {
+        return array[0];
+    }
+    public static void main(String[] args) {
+        Integer[] arr = {1, 2, 3};
+        System.out.println(getFirst(arr));
+    }
+}`,
+                options: [
+                    "1",
+                    "2",
+                    "null",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "The generic method returns the first element, testing method generics."
+            },
+            {
+                question: "Can a wildcard be used with a lower bound?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with extends",
+                    "Only with raw types"
+                ],
+                correct: 0,
+                explanation: "? super T sets a lower bound, testing wildcard flexibility."
+            },
+            {
+                question: "What happens if a generic array is created?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        List<String>[] array = new List<String>[10];
+    }
+}`,
+                options: [
+                    "Compiles successfully",
+                    "Compilation warning",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "Generic array creation is not allowed directly, testing array rules."
+            },
+            {
+                question: "What is the output of this code with bounded wildcards?",
+                code: `import java.util.ArrayList;
+import java.util.List;
+public class Test {
+    public static void printList(List<? extends Number> list) {
+        for (Number n : list) {
+            System.out.println(n);
+        }
+    }
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(10);
+        printList(list);
+    }
+}`,
+                options: [
+                    "10",
+                    "null",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "? extends Number accepts Integer, testing upper bounds."
+            },
+            {
+                question: "Can a generic class be extended?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with raw types"
+                ],
+                correct: 0,
+                explanation: "Generic classes can be subclassed with type parameters, testing inheritance."
+            },
+            {
+                question: "What is the output of this code with a lower bound wildcard?",
+                code: `import java.util.ArrayList;
+import java.util.List;
+public class Test {
+    public static void addNumbers(List<? super Integer> list) {
+        list.add(5);
+    }
+    public static void main(String[] args) {
+        List<Number> list = new ArrayList<>();
+        addNumbers(list);
+        System.out.println(list.get(0));
+    }
+}`,
+                options: [
+                    "5",
+                    "null",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "? super Integer allows Number, adding an Integer, testing lower bounds."
+            },
+            {
+                question: "Can a generic method be static?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with extends"
+                ],
+                correct: 0,
+                explanation: "Static methods can be generic, testing scope."
+            },
+            {
+                question: "What happens if a generic type is erased at runtime?",
+                options: [
+                    "Type information is lost",
+                    "Type checking occurs",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "Type erasure removes generic types at runtime, testing Java behavior."
+            },
+            {
+                question: "What is the output of this code with type erasure?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        List<Integer> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        System.out.println(list1.getClass() == list2.getClass());
+    }
+}`,
+                options: [
+                    "true",
+                    "false",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "Type erasure makes both ArrayList instances of the same class, testing erasure."
+            },
+            {
+                question: "Can a wildcard be unbounded?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with extends",
+                    "Only with super"
+                ],
+                correct: 0,
+                explanation: "? is an unbounded wildcard, testing flexibility."
+            },
+            {
+                question: "What is the output of this code with a generic interface?",
+                code: `public interface MyInterface<T> {
+    T getValue();
+}
+public class Test implements MyInterface<String> {
+    private String value = "Test";
+    public String getValue() {
+        return value;
+    }
+    public static void main(String[] args) {
+        Test t = new Test();
+        System.out.println(t.getValue());
+    }
+}`,
+                options: [
+                    "Test",
+                    "null",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The class implements the generic interface with String, testing interface usage."
+            },
+            {
+                question: "Can a generic class have a static generic method?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with wildcards",
+                    "Only with extends"
+                ],
+                correct: 0,
+                explanation: "Static methods can be generic independently, testing scope."
+            },
+            {
+                question: "What happens if a generic method uses an incompatible bound?",
+                code: `public class Test {
+    public static <T extends String> void print(T value) {
+        System.out.println(value);
+    }
+    public static void main(String[] args) {
+        print("Test");
+    }
+}`,
+                options: [
+                    "Test",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 1,
+                explanation: "String is final and cannot be extended, testing bound validity."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let codeBlock = '';
+            if (question.code) {
+                codeBlock = `<div class="code-block">${question.code}</div>`;
+            }
+            
+            container.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                ${codeBlock}
+                <div class="options-container">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="answer" value="${index}" id="option${index}">
+                            <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
+                    <button class="btn btn-success" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+                </div>
+                <div class="answer-section" id="answerSection">
+                    <h4>✅ Correct Answer: ${String.fromCharCode(97 + question.correct)}) ${question.options[question.correct]}</h4>
+                    <div class="explanation"><strong>Explanation:</strong> ${question.explanation}</div>
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                    <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+                    ${currentQuestion === questions.length - 1 ? '<button class="btn btn-success" onclick="finishQuiz()" id="finishBtn" style="display:none;">Finish Quiz</button>' : ''}
+                </div>
+            `;
+            
+            answered = false;
+            updateProgress();
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                selectOption(userAnswers[currentQuestion]);
+                showAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`#option${index}`).checked = true;
+            document.querySelector(`#option${index}`).parentElement.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Store user answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            if (!answered) {
+                if (selectedIndex === correctIndex) {
+                    score++;
+                    updateScore();
+                }
+                answered = true;
+            }
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show answer section and enable next button
+            document.getElementById('answerSection').classList.add('show');
+            document.getElementById('showAnswerBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = score;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('percentage').textContent = `(${percentage}%)`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((score / questions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have mastered Java Generics! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Great job! You have a solid understanding of the topic. 👏';
+            } else if (percentage >= 60) {
+                message = 'Good work! Consider reviewing the concepts you missed. 📚';
+            } else {
+                message = 'Keep practicing! Review the explanations and try again. 💪';
+            }
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length} (${percentage}%)`;
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('quizComplete').classList.add('show');
+            document.getElementById('questionContainer').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            updateScore();
+            document.getElementById('quizComplete').classList.remove('show');
+            document.getElementById('questionContainer').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
