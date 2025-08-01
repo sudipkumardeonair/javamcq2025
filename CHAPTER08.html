@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Abstract Method & Abstract Class MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .quiz-container {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-section h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quiz-complete {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .quiz-complete.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java MCQ Quiz</h1>
+            <div class="subtitle">Abstract Method, Abstract Class</div>
+            <div class="attribution">Compiled by Mr. Sudip Kumar De</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score-display">
+                <strong>Score: <span id="currentScore">0</span> / <span id="totalQuestions">25</span></strong>
+                <span id="percentage">(0%)</span>
+            </div>
+
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+
+            <div class="quiz-complete" id="quizComplete">
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is an abstract method in Java?",
+                options: [
+                    "A method with a body",
+                    "A method without a body",
+                    "A static method",
+                    "A final method"
+                ],
+                correct: 1,
+                explanation: "An abstract method is declared with no implementation, requiring subclasses to provide it."
+            },
+            {
+                question: "What is the purpose of an abstract class?",
+                options: [
+                    "To be instantiated directly",
+                    "To provide a blueprint for subclasses",
+                    "To define static methods only",
+                    "To prevent inheritance"
+                ],
+                correct: 1,
+                explanation: "An abstract class cannot be instantiated and serves as a base for derived classes."
+            },
+            {
+                question: "Can an abstract class have non-abstract methods?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with static"
+                ],
+                correct: 0,
+                explanation: "An abstract class can include both abstract and concrete methods, testing flexibility."
+            },
+            {
+                question: "What happens if a subclass does not implement an abstract method?",
+                code: `public abstract class Parent {
+    abstract void display();
+}
+public class Child extends Parent {
+    public static void main(String[] args) {}
+}`,
+                options: [
+                    "Successful compilation",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 1,
+                explanation: "A subclass must implement all abstract methods or be abstract itself, testing enforcement."
+            },
+            {
+                question: "Can an abstract method be private?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with this"
+                ],
+                correct: 1,
+                explanation: "Private methods cannot be abstract as they are not accessible to subclasses, testing access rules."
+            },
+            {
+                question: "What is the output of this code with an abstract class?",
+                code: `public abstract class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The child inherits and calls the parent's concrete method, testing abstract class usage."
+            },
+            {
+                question: "Can an abstract class be final?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with abstract methods",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "A final class cannot be abstract as it cannot be extended, testing contradictory modifiers."
+            },
+            {
+                question: "What is required to instantiate an abstract class?",
+                options: [
+                    "Direct instantiation",
+                    "Subclass implementation",
+                    "Static method call",
+                    "Final keyword"
+                ],
+                correct: 1,
+                explanation: "An abstract class must be extended and its abstract methods implemented, testing instantiation rules."
+            },
+            {
+                question: "What happens if an abstract method is marked as static?",
+                code: `public abstract class Parent {
+    abstract static void display();
+}`,
+                options: [
+                    "Successful compilation",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 1,
+                explanation: "Abstract methods cannot be static, as they require implementation, testing method compatibility."
+            },
+            {
+                question: "What is the output of this code with abstract method implementation?",
+                code: `public abstract class Parent {
+    abstract void show();
+}
+public class Child extends Parent {
+    void show() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The child implements the abstract method, testing proper extension."
+            },
+            {
+                question: "Can an interface have abstract methods?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with static"
+                ],
+                correct: 0,
+                explanation: "All methods in an interface are implicitly abstract (pre-Java 8), testing interface behavior."
+            },
+            {
+                question: "What happens if a concrete class extends an abstract class without implementing all abstract methods?",
+                code: `public abstract class Parent {
+    abstract void method();
+}
+public class Child extends Parent {
+    public static void main(String[] args) {}
+}`,
+                options: [
+                    "Successful compilation",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 1,
+                explanation: "A concrete subclass must implement all abstract methods, testing enforcement."
+            },
+            {
+                question: "Can an abstract class have a constructor?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with static"
+                ],
+                correct: 0,
+                explanation: "An abstract class can have a constructor for subclass initialization, testing class features."
+            },
+            {
+                question: "What is the output of this code with multiple abstract methods?",
+                code: `public abstract class Parent {
+    abstract void display();
+    abstract void print();
+}
+public class Child extends Parent {
+    void display() {
+        System.out.println("Display");
+    }
+    void print() {
+        System.out.println("Print");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.display();
+        c.print();
+    }
+}`,
+                options: [
+                    "Display Print",
+                    "Display",
+                    "Print",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "The child implements both abstract methods, testing multiple method implementation."
+            },
+            {
+                question: "Can an abstract method have a body?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with default",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "Abstract methods lack a body, requiring subclass implementation, testing method definition."
+            },
+            {
+                question: "What happens if an abstract class is instantiated directly?",
+                code: `public abstract class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Parent();
+        p.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 1,
+                explanation: "Abstract classes cannot be instantiated, testing instantiation rules."
+            },
+            {
+                question: "Can a class be both abstract and final?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with abstract methods",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "abstract requires extension, while final prevents it, creating a contradiction. An abstract class is meant to be extended, whereas a final class cannot be."
+            },
+            {
+                question: "What is the output of this code with an abstract class hierarchy?",
+                code: `public abstract class A {
+    abstract void method();
+}
+public class B extends A {
+    void method() {
+        System.out.println("B");
+    }
+    public static void main(String[] args) {
+        B b = new B();
+        b.method();
+    }
+}`,
+                options: [
+                    "A",
+                    "B",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "B implements A's abstract method, testing hierarchy resolution."
+            },
+            {
+                question: "Can an abstract method be marked as private?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with this"
+                ],
+                correct: 1,
+                explanation: "Private methods are not accessible to subclasses, making them incompatible with abstract, testing access."
+            },
+            {
+                question: "What happens if a subclass is abstract and extends an abstract class?",
+                code: `public abstract class Parent {
+    abstract void show();
+}
+public abstract class Child extends Parent {
+    public static void main(String[] args) {}
+}`,
+                options: [
+                    "Successful compilation",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "An abstract subclass can defer implementation, testing abstract chain."
+            },
+            {
+                question: "Can an abstract class implement an interface without implementing its methods?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with static"
+                ],
+                correct: 0,
+                explanation: "An abstract class can leave interface methods abstract, testing interface integration."
+            },
+            {
+                question: "What is the output of this code with an abstract method?",
+                code: `public abstract class Parent {
+    abstract void display();
+}
+public class Child extends Parent {
+    void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Polymorphism resolves to the child's implementation, testing abstract with upcasting."
+            },
+            {
+                question: "Can a concrete method in an abstract class be overridden?",
+                code: `public abstract class Parent {
+    void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void method() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.method();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "Concrete methods can be overridden, testing method flexibility."
+            },
+            {
+                question: "What happens if an abstract class has no abstract methods?",
+                code: `public abstract class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "An abstract class without abstract methods is valid, testing minimal requirements."
+            },
+            {
+                question: "Can an abstract method be static?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with public"
+                ],
+                correct: 1,
+                explanation: "Static methods cannot be abstract as they are not overridden, testing method rules."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let codeBlock = '';
+            if (question.code) {
+                codeBlock = `<div class="code-block">${question.code}</div>`;
+            }
+            
+            container.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                ${codeBlock}
+                <div class="options-container">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="answer" value="${index}" id="option${index}">
+                            <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
+                    <button class="btn btn-success" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+                </div>
+                <div class="answer-section" id="answerSection">
+                    <h4>✅ Correct Answer: ${String.fromCharCode(97 + question.correct)}) ${question.options[question.correct]}</h4>
+                    <div class="explanation"><strong>Explanation:</strong> ${question.explanation}</div>
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                    <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+                    ${currentQuestion === questions.length - 1 ? '<button class="btn btn-success" onclick="finishQuiz()" id="finishBtn" style="display:none;">Finish Quiz</button>' : ''}
+                </div>
+            `;
+            
+            answered = false;
+            updateProgress();
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                selectOption(userAnswers[currentQuestion]);
+                showAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`#option${index}`).checked = true;
+            document.querySelector(`#option${index}`).parentElement.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Store user answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            if (!answered) {
+                if (selectedIndex === correctIndex) {
+                    score++;
+                    updateScore();
+                }
+                answered = true;
+            }
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show answer section and enable next button
+            document.getElementById('answerSection').classList.add('show');
+            document.getElementById('showAnswerBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = score;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('percentage').textContent = `(${percentage}%)`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((score / questions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have mastered Java Abstract Methods and Abstract Classes! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Great job! You have a solid understanding of the topic. 👏';
+            } else if (percentage >= 60) {
+                message = 'Good work! Consider reviewing the concepts you missed. 📚';
+            } else {
+                message = 'Keep practicing! Review the explanations and try again. 💪';
+            }
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length} (${percentage}%)`;
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('quizComplete').classList.add('show');
+            document.getElementById('questionContainer').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            updateScore();
+            document.getElementById('quizComplete').classList.remove('show');
+            document.getElementById('questionContainer').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Dynamic Polymorphism MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .quiz-container {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-section h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quiz-complete {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .quiz-complete.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java MCQ Quiz</h1>
+            <div class="subtitle">Dynamic Polymorphism: Method Overriding, Access Specifiers, Super Keyword</div>
+            <div class="attribution">Compiled by Mr. Sudip Kumar De</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score-display">
+                <strong>Score: <span id="currentScore">0</span> / <span id="totalQuestions">37</span></strong>
+                <span id="percentage">(0%)</span>
+            </div>
+
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+
+            <div class="quiz-complete" id="quizComplete">
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is dynamic polymorphism in Java?",
+                options: [
+                    "Method resolution at compile time",
+                    "Method resolution at runtime",
+                    "Static method calling",
+                    "Variable declaration"
+                ],
+                correct: 1,
+                explanation: "Dynamic polymorphism uses runtime binding to select the appropriate method, a core OOP feature."
+            },
+            {
+                question: "What is a key requirement for method overriding?",
+                options: [
+                    "Different method names",
+                    "Same method name and parameters",
+                    "Different return types",
+                    "Static modifier"
+                ],
+                correct: 1,
+                explanation: "Overriding requires identical signatures to enable polymorphic behavior, a fundamental rule."
+            },
+            {
+                question: "What happens if a subclass overrides a parent method with a stricter access specifier?",
+                options: [
+                    "Compilation error",
+                    "Allowed with covariant return",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "Overriding cannot reduce visibility (e.g., from 'public' to 'private'), testing access rules."
+            },
+            {
+                question: "What is the purpose of the super keyword in method overriding?",
+                options: [
+                    "Calls the subclass method",
+                    "Calls the parent method",
+                    "Creates a new object",
+                    "Initializes variables"
+                ],
+                correct: 1,
+                explanation: "super accesses the overridden method, enabling method extension in polymorphism."
+            },
+            {
+                question: "What is the output of this code with method overriding?",
+                code: `public class Parent {
+    void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Runtime polymorphism resolves to the child's overridden method, testing dynamic binding."
+            },
+            {
+                question: "Can a static method be overridden?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with this"
+                ],
+                correct: 1,
+                explanation: "Static methods are bound at compile time, not overridden, testing polymorphism limits."
+            },
+            {
+                question: "What access specifier allows the widest visibility?",
+                options: [
+                    "private",
+                    "protected",
+                    "public",
+                    "default"
+                ],
+                correct: 2,
+                explanation: "public provides access across packages, a key aspect of access control."
+            },
+            {
+                question: "What is the output when using super in this code?",
+                code: `public class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void show() {
+        super.show();
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "super.show() calls the parent method, followed by the child's, testing method chaining."
+            },
+            {
+                question: "Can a subclass method have a more restrictive access specifier than the parent?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with static",
+                    "Only with final"
+                ],
+                correct: 1,
+                explanation: "Overriding requires at least the same visibility, testing access specifier rules."
+            },
+            {
+                question: "What is the output of this polymorphic call?",
+                code: `public class Parent {
+    void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void method() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent[] arr = {new Child(), new Parent()};
+        for (Parent p : arr) {
+            p.method();
+        }
+    }
+}`,
+                options: [
+                    "Parent Child",
+                    "Child Parent",
+                    "Parent Parent",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Polymorphism resolves to the actual object type, testing array-based dynamic binding."
+            },
+            {
+                question: "What happens if a method is overridden with a different return type?",
+                options: [
+                    "Allowed with covariant types",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "Covariant return types (e.g., subclass) are permitted, testing advanced overriding."
+            },
+            {
+                question: "Can super be used to call a private method?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with this",
+                    "Only with public"
+                ],
+                correct: 1,
+                explanation: "Private methods are inaccessible to subclasses, testing access boundaries."
+            },
+            {
+                question: "What is the output of this code with access specifiers?",
+                code: `public class Parent {
+    protected void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The child's public method overrides the parent's protected method. The key point is that a subclass can relax (widen) the access modifier, not narrow it, testing access relaxation."
+            },
+            {
+                question: "What is the effect of using final with an overridden method?",
+                options: [
+                    "Allows overriding",
+                    "Prevents overriding",
+                    "Causes compilation error",
+                    "Enables runtime binding"
+                ],
+                correct: 1,
+                explanation: "final methods cannot be overridden, testing method modification rules."
+            },
+            {
+                question: "What is the output of this polymorphic scenario?",
+                code: `public class Parent {
+    void print() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void print() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.print();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "Runtime polymorphism selects the child's method, testing dynamic dispatch."
+            },
+            {
+                question: "Can a private method be overridden?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with this"
+                ],
+                correct: 1,
+                explanation: "Private methods are not inherited, so they cannot be overridden, testing access scope."
+            },
+            {
+                question: "What access specifier is required for a method to be overridden?",
+                options: [
+                    "private",
+                    "protected or public",
+                    "default",
+                    "static"
+                ],
+                correct: 1,
+                explanation: "The method must be accessible to the subclass, testing overriding prerequisites."
+            },
+            {
+                question: "What is the output of this code using super?",
+                code: `public class Parent {
+    void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void method() {
+        super.method();
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        new Child().method();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "super.method() calls the parent, followed by the child's code, testing method extension."
+            },
+            {
+                question: "What happens if a subclass tries to override a final method?",
+                code: `public class Parent {
+    final void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "Overriding a final method is prohibited, testing method immutability."
+            },
+            {
+                question: "Can a method with a default access specifier be overridden?",
+                code: `class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void show() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with public"
+                ],
+                correct: 0,
+                explanation: "Default access allows overriding within the same package, testing access scope."
+            },
+            {
+                question: "What is the output of this polymorphic array?",
+                code: `public class Parent {
+    void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void method() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent[] arr = {new Parent(), new Child()};
+        for (Parent p : arr) {
+            p.method();
+        }
+    }
+}`,
+                options: [
+                    "Parent Child",
+                    "Child Parent",
+                    "Parent Parent",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Polymorphism resolves to the actual object type, testing runtime behavior."
+            },
+            {
+                question: "What access specifier prevents overriding?",
+                options: [
+                    "public",
+                    "protected",
+                    "private",
+                    "default"
+                ],
+                correct: 2,
+                explanation: "Private methods are not inherited, thus not overridable, testing access control."
+            },
+            {
+                question: "What is the output of this code with super and access?",
+                code: `public class Parent {
+    protected void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public void display() {
+        super.display();
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "super.display() accesses the parent's method, followed by the child's, testing access and overriding."
+            },
+            {
+                question: "Can a method be overridden in a different package with default access?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with public"
+                ],
+                correct: 1,
+                explanation: "Default access is package-private, limiting overriding to the same package, testing visibility."
+            },
+            {
+                question: "What is the output of this polymorphic call with access?",
+                code: `public class Parent {
+    public void show() {
+        System.out.println("Parent");
+    }
+}
+class Child extends Parent {
+    public void show() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The child's method is called due to runtime polymorphism, testing public access."
+            },
+            {
+                question: "What happens if a method is overridden with a static modifier?",
+                code: `public class Parent {
+    static void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    static void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Static methods are not overridden but hidden, resolved at compile time, testing static binding."
+            },
+            {
+                question: "Can super access a method from a grandparent class?",
+                code: `public class A {
+    void method() {
+        System.out.println("A");
+    }
+}
+public class B extends A {
+}
+public class C extends B {
+    void method() {
+        super.method();
+    }
+    public static void main(String[] args) {
+        new C().method();
+    }
+}`,
+                options: [
+                    "A",
+                    "B",
+                    "C",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "super.method() accesses the nearest parent (A's), testing inheritance depth."
+            },
+            {
+                question: "What is the output of this code with access and overriding?",
+                code: `public class Parent {
+    protected void print() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public void print() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.print();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The child's public method overrides the parent's, testing access relaxation."
+            },
+            {
+                question: "What access specifier is required for overriding across packages?",
+                options: [
+                    "private",
+                    "protected",
+                    "default",
+                    "public"
+                ],
+                correct: 3,
+                explanation: "public is needed for cross-package overriding, testing visibility rules."
+            },
+            {
+                question: "What is the output of this polymorphic call?",
+                code: `public class Parent {
+    void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Parent();
+        p.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "The parent's method is called as the object is of type Parent, testing static binding."
+            },
+            {
+                question: "Can a method be overridden with a different number of parameters?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with super",
+                    "Only with this"
+                ],
+                correct: 1,
+                explanation: "Overriding requires identical parameter lists, testing method signature rules."
+            },
+            {
+                question: "What is the output of this code with super in a hierarchy?",
+                code: `public class A {
+    void show() {
+        System.out.println("A");
+    }
+}
+public class B extends A {
+    void show() {
+        System.out.println("B");
+    }
+}
+public class C extends B {
+    void show() {
+        super.show();
+        System.out.println("C");
+    }
+    public static void main(String[] args) {
+        new C().show();
+    }
+}`,
+                options: [
+                    "A",
+                    "B",
+                    "A C",
+                    "B C"
+                ],
+                correct: 3,
+                explanation: "super.show() calls B's method, followed by C's, testing multilevel super."
+            },
+            {
+                question: "What happens if a method is overridden with a less visible access?",
+                code: `public class Parent {
+    public void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    private void method() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.method();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "Reducing visibility from public to private is not allowed, testing access rules."
+            },
+            {
+                question: "What is the output of this polymorphic call with access?",
+                code: `public class Parent {
+    protected void display() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public void display() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The child's method is called due to runtime polymorphism, testing access compatibility."
+            },
+            {
+                question: "Can super be used in a static method?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with this",
+                    "Only with public"
+                ],
+                correct: 1,
+                explanation: "super requires an instance context, not available in static methods, testing context rules."
+            },
+            {
+                question: "What is the output of this code with overridden access?",
+                code: `public class Parent {
+    public void show() {
+        System.out.println("Parent");
+    }
+}
+class Child extends Parent {
+    void show() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Parent Child",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The child's default access method overrides the parent's, valid within the package, testing access scope."
+            },
+            {
+                question: "What happens if a method is not marked as public for overriding?",
+                code: `class Parent {
+    void method() {
+        System.out.println("Parent");
+    }
+}
+public class Child extends Parent {
+    public void method() {
+        System.out.println("Child");
+    }
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.method();
+    }
+}`,
+                options: [
+                    "Parent",
+                    "Child",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The child's public method can override the parent's default method, testing access relaxation."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let codeBlock = '';
+            if (question.code) {
+                codeBlock = `<div class="code-block">${question.code}</div>`;
+            }
+            
+            container.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                ${codeBlock}
+                <div class="options-container">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="answer" value="${index}" id="option${index}">
+                            <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
+                    <button class="btn btn-success" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+                </div>
+                <div class="answer-section" id="answerSection">
+                    <h4>✅ Correct Answer: ${String.fromCharCode(97 + question.correct)}) ${question.options[question.correct]}</h4>
+                    <div class="explanation"><strong>Explanation:</strong> ${question.explanation}</div>
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                    <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+                    ${currentQuestion === questions.length - 1 ? '<button class="btn btn-success" onclick="finishQuiz()" id="finishBtn" style="display:none;">Finish Quiz</button>' : ''}
+                </div>
+            `;
+            
+            answered = false;
+            updateProgress();
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                selectOption(userAnswers[currentQuestion]);
+                showAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`#option${index}`).checked = true;
+            document.querySelector(`#option${index}`).parentElement.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Store user answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            if (!answered) {
+                if (selectedIndex === correctIndex) {
+                    score++;
+                    updateScore();
+                }
+                answered = true;
+            }
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show answer section and enable next button
+            document.getElementById('answerSection').classList.add('show');
+            document.getElementById('showAnswerBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = score;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('percentage').textContent = `(${percentage}%)`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((score / questions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have mastered Java Dynamic Polymorphism! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Great job! You have a solid understanding of the topic. 👏';
+            } else if (percentage >= 60) {
+                message = 'Good work! Consider reviewing the concepts you missed. 📚';
+            } else {
+                message = 'Keep practicing! Review the explanations and try again. 💪';
+            }
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length} (${percentage}%)`;
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('quizComplete').classList.add('show');
+            document.getElementById('questionContainer').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            updateScore();
+            document.getElementById('quizComplete').classList.remove('show');
+            document.getElementById('questionContainer').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Variables & Static Concepts MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .quiz-container {
+            padding: 40px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-section h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quiz-complete {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .quiz-complete.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java MCQ Quiz</h1>
+            <div class="subtitle">Concept of Variables, Static Method, Static Block, Static Class, Instance Block, Scope</div>
+            <div class="attribution">Compiled by Mr. Sudip Kumar De</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score-display">
+                <strong>Score: <span id="currentScore">0</span> / <span id="totalQuestions">80</span></strong>
+                <span id="percentage">(0%)</span>
+            </div>
+
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+
+            <div class="quiz-complete" id="quizComplete">
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the scope of a local variable declared inside a method?",
+                options: [
+                    "Class-wide",
+                    "Method-wide",
+                    "Instance-wide",
+                    "Global"
+                ],
+                correct: 1,
+                explanation: "Local variables are accessible only within the method where they are declared, making their scope method-wide. This tests variable scope, a key concept in interviews."
+            },
+            {
+                question: "What happens if a static method tries to access a non-static variable?",
+                options: [
+                    "Compilation error",
+                    "Runtime exception",
+                    "Works fine",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "Static methods cannot access non-static variables directly as they belong to instances, requiring an object reference. This tests static method behavior."
+            },
+            {
+                question: "When is a static block executed in a Java class?",
+                options: [
+                    "At object creation",
+                    "During class loading",
+                    "At method call",
+                    "Never"
+                ],
+                correct: 1,
+                explanation: "Static blocks execute when the class is loaded into the JVM, before any instance is created. This tests initialization order, common in coding tests."
+            },
+            {
+                question: "Which of the following can be marked as static in Java?",
+                options: [
+                    "Constructor",
+                    "Method",
+                    "Instance variable",
+                    "Local variable"
+                ],
+                correct: 1,
+                explanation: "Only methods, variables, and blocks can be static; constructors cannot. This tests static keyword usage, a frequent interview topic."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static { 
+        System.out.println("Static"); 
+    } 
+    public static void main(String[] args) { 
+        System.out.println("Main"); 
+    } 
+}`,
+                options: [
+                    "Main",
+                    "Static Main",
+                    "Static",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "The static block executes during class loading, before main. This tests static block execution order."
+            },
+            {
+                question: "Why does a static class need to be nested?",
+                options: [
+                    "To improve performance",
+                    "To restrict instantiation",
+                    "Java does not allow top-level static classes",
+                    "To enable inheritance"
+                ],
+                correct: 2,
+                explanation: "Only nested classes can be static in Java to provide a static context. This tests class structure rules."
+            },
+            {
+                question: "What is the default value of a static variable if not initialized?",
+                options: [
+                    "null",
+                    "0",
+                    "Depends on data type",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "Static variables are initialized to 0 for numerics, false for boolean, and null for objects. This tests default initialization."
+            },
+            {
+                question: "What happens when an instance block is executed?",
+                options: [
+                    "Once per class load",
+                    "Once per object creation",
+                    "Never",
+                    "At method call"
+                ],
+                correct: 1,
+                explanation: "Instance blocks run each time a new object is created, initializing instance-specific data. This tests block execution."
+            },
+            {
+                question: "Which keyword is used to define a static method?",
+                options: [
+                    "static",
+                    "final",
+                    "private",
+                    "public"
+                ],
+                correct: 0,
+                explanation: "The static keyword denotes methods or variables accessible without instantiation. This tests basic syntax."
+            },
+            {
+                question: "What is the scope of a variable declared in an instance block?",
+                options: [
+                    "Class-wide",
+                    "Method-wide",
+                    "Instance-wide",
+                    "Block-wide"
+                ],
+                correct: 2,
+                explanation: "Variables in instance blocks are accessible throughout the instance, unless shadowed. This tests scope rules."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static int x = 10; 
+    static { 
+        x += 5; 
+    } 
+    public static void main(String[] args) { 
+        System.out.println(x); 
+    } 
+}`,
+                options: [
+                    "10",
+                    "15",
+                    "5",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The static block modifies x from 10 to 15 during class loading. This tests static variable initialization."
+            },
+            {
+                question: "Can a static method be overridden?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with abstract"
+                ],
+                correct: 1,
+                explanation: "Static methods are bound at compile time and cannot be overridden, only hidden. This tests polymorphism limits."
+            },
+            {
+                question: "What is the purpose of an instance block?",
+                options: [
+                    "Initialize static data",
+                    "Initialize instance data",
+                    "Define class methods",
+                    "Manage scope"
+                ],
+                correct: 1,
+                explanation: "Instance blocks initialize data specific to each object. This tests block usage."
+            },
+            {
+                question: "What happens if a static variable is accessed before initialization?",
+                options: [
+                    "Default value is used",
+                    "Compilation error",
+                    "Runtime exception",
+                    "Undefined behavior"
+                ],
+                correct: 0,
+                explanation: "Static variables are initialized to defaults (e.g., 0) before use. This tests variable lifecycle."
+            },
+            {
+                question: "Which of the following is true about static methods?",
+                options: [
+                    "Require an object to call",
+                    "Can access instance variables directly",
+                    "Belong to the class",
+                    "Cannot be public"
+                ],
+                correct: 2,
+                explanation: "Static methods are class-level, not instance-specific. This tests method context."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    { 
+        int x = 5; 
+        System.out.println(x); 
+    } 
+    public static void main(String[] args) { } 
+}`,
+                options: [
+                    "5",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The instance block executes and prints 5 when an object is created, though no object is created here. This tests block scope."
+            },
+            {
+                question: "Can a static block throw a checked exception without handling?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with try-catch",
+                    "Only with throws"
+                ],
+                correct: 1,
+                explanation: "Static blocks must handle or declare checked exceptions. This tests exception handling rules."
+            },
+            {
+                question: "What is the scope of a static variable?",
+                options: [
+                    "Method-wide",
+                    "Instance-wide",
+                    "Class-wide",
+                    "Block-wide"
+                ],
+                correct: 2,
+                explanation: "Static variables are shared across all instances of a class. This tests variable scope."
+            },
+            {
+                question: "What happens when a static method calls an instance method?",
+                options: [
+                    "Compilation error",
+                    "Runtime exception",
+                    "Works with object reference",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "Static methods cannot call instance methods directly without an object. This tests method access rules."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static { 
+        System.out.println("A"); 
+    } 
+    { 
+        System.out.println("B"); 
+    } 
+    public static void main(String[] args) { } 
+}`,
+                options: [
+                    "A B",
+                    "B A",
+                    "A",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "Only the static block executes during class loading; the instance block requires an object. This tests block execution order."
+            },
+            {
+                question: "Which modifier cannot be applied to a static variable?",
+                options: [
+                    "final",
+                    "private",
+                    "transient",
+                    "abstract"
+                ],
+                correct: 3,
+                explanation: "abstract applies to methods or classes, not variables. This tests modifier compatibility."
+            },
+            {
+                question: "What is the purpose of a static class?",
+                options: [
+                    "Encapsulate instance data",
+                    "Provide utility methods",
+                    "Enable multiple inheritance",
+                    "Define instance blocks"
+                ],
+                correct: 1,
+                explanation: "Static nested classes are often used for utility functions. This tests class design."
+            },
+            {
+                question: "What happens if an instance block modifies a static variable?",
+                options: [
+                    "Compilation error",
+                    "Affects all instances",
+                    "Affects only the instance",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "Static variables are shared, so changes are global. This tests variable sharing."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static int x; 
+    { 
+        x = 10; 
+    } 
+    public static void main(String[] args) { 
+        System.out.println(x); 
+    } 
+}`,
+                options: [
+                    "0",
+                    "10",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "Instance blocks cannot be used outside a class body with static context. This tests block placement."
+            },
+            {
+                question: "Can a static method be synchronized?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with final",
+                    "Only with abstract"
+                ],
+                correct: 0,
+                explanation: "Static methods can be synchronized for thread safety. This tests concurrency concepts."
+            },
+            {
+                question: "What is the scope of a variable declared in a static block?",
+                options: [
+                    "Class-wide",
+                    "Method-wide",
+                    "Block-wide",
+                    "Instance-wide"
+                ],
+                correct: 2,
+                explanation: "Variables in static blocks are local to that block. This tests scope limits."
+            },
+            {
+                question: "What happens when a static method is called before class loading?",
+                options: [
+                    "Class is loaded automatically",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 0,
+                explanation: "Calling a static method triggers class loading. This tests class lifecycle."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static { 
+        int x = 5; 
+    } 
+    public static void main(String[] args) { 
+        System.out.println(x); 
+    } 
+}`,
+                options: [
+                    "5",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "x is local to the static block and inaccessible outside. This tests variable scope."
+            },
+            {
+                question: "Which of the following is true about instance blocks?",
+                options: [
+                    "Execute once per class",
+                    "Can access static variables",
+                    "Cannot be used with static methods",
+                    "Require a return type"
+                ],
+                correct: 1,
+                explanation: "Instance blocks can access static members. This tests block capabilities."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static int x = 10; 
+    public static void main(String[] args) { 
+        x++; 
+        System.out.println(x); 
+    } 
+}`,
+                options: [
+                    "10",
+                    "11",
+                    "0",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "x++ increments the static variable from 10 to 11. This tests static variable modification."
+            },
+            {
+                question: "Can a static block call a non-static method?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with object",
+                    "Only with final"
+                ],
+                correct: 1,
+                explanation: "Static blocks cannot access instance methods without an object. This tests method access."
+            },
+            {
+                question: "What is the scope of a static method?",
+                options: [
+                    "Class-wide",
+                    "Instance-wide",
+                    "Method-wide",
+                    "Block-wide"
+                ],
+                correct: 0,
+                explanation: "Static methods are accessible throughout the class and via the class name. This tests method scope."
+            },
+            {
+                question: "What happens if a static variable is final?",
+                options: [
+                    "Can be modified",
+                    "Cannot be initialized",
+                    "Must be initialized at declaration",
+                    "Causes runtime error"
+                ],
+                correct: 2,
+                explanation: "final static variables require initialization at declaration or in a static block. This tests modifier rules."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static { 
+        System.out.println("Static 1"); 
+    } 
+    static { 
+        System.out.println("Static 2"); 
+    } 
+    public static void main(String[] args) { } 
+}`,
+                options: [
+                    "Static 1 Static 2",
+                    "Static 2 Static 1",
+                    "Static 1",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Static blocks execute in declaration order during class loading. This tests block sequencing."
+            },
+            {
+                question: "Can an instance block access a local variable from main?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with static",
+                    "Only with final"
+                ],
+                correct: 1,
+                explanation: "Instance blocks cannot access main's local variables due to scope separation. This tests scope boundaries."
+            },
+            {
+                question: "What is the purpose of a static import?",
+                options: [
+                    "Import instance methods",
+                    "Access static members without qualification",
+                    "Define new classes",
+                    "Initialize instance blocks"
+                ],
+                correct: 1,
+                explanation: "Static import allows direct use of static members. This tests import usage."
+            },
+            {
+                question: "What happens if a static method is called from an instance context?",
+                options: [
+                    "Compilation error",
+                    "Works fine",
+                    "Runtime exception",
+                    "No effect"
+                ],
+                correct: 1,
+                explanation: "Static methods can be called via instances, though it's not recommended. This tests method invocation."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `public class Test { 
+    static int x = 5; 
+    { 
+        x = 10; 
+    } 
+    public static void main(String[] args) { 
+        System.out.println(x); 
+    } 
+}`,
+                options: [
+                    "5",
+                    "10",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "Instance blocks cannot modify static variables outside a valid context. This tests block-variable interaction."
+            },
+            {
+                question: "Can a static class implement an interface?",
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with abstract",
+                    "Only with final"
+                ],
+                correct: 0,
+                explanation: "Static nested classes can implement interfaces. This tests class capabilities."
+            },
+            {
+                question: "What is the scope of a variable declared in a static method?",
+                options: [
+                    "Class-wide",
+                    "Method-wide",
+                    "Instance-wide",
+                    "Block-wide"
+                ],
+                correct: 1,
+                explanation: "Variables in static methods are local to that method. This tests method scope."
+            },
+            {
+                question: "What happens if a static block contains an infinite loop?",
+                options: [
+                    "Class fails to load",
+                    "JVM hangs",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "An infinite loop in a static block prevents class loading completion. This tests block behavior."
+            },
+            {
+                question: "What is the scope of x in the following code?",
+                code: `public class Test {
+    public void method() {
+        int x = 10;
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "Class-wide",
+                    "Method-wide",
+                    "Instance-wide",
+                    "Block-wide"
+                ],
+                correct: 1,
+                explanation: "The variable x is declared within method(), making its scope limited to that method. This tests local variable scope."
+            },
+            {
+                question: "What happens when this code is executed?",
+                code: `public class Test {
+    static int x = 5;
+    public static void main(String[] args) {
+        x = 10;
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "5",
+                    "10",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The static variable x is reassigned to 10 in main, and the updated value is printed. This tests static variable modification."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("Static");
+    }
+    public static void main(String[] args) {
+        System.out.println("Main");
+    }
+}`,
+                options: [
+                    "Main",
+                    "Static Main",
+                    "Static",
+                    "Compilation error"
+                ],
+                correct: 2,
+                explanation: "The static block executes during class loading before main, printing 'Static'. This tests static block timing."
+            },
+            {
+                question: "Can this code compile successfully?",
+                code: `public class Test {
+    static void method() {
+        int x = 5;
+        System.out.println(this.x);
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with object",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "this cannot be used in a static method as it requires an instance, causing a compilation error. This tests static context."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    {
+        System.out.println("Instance");
+    }
+    public static void main(String[] args) {
+    }
+}`,
+                options: [
+                    "Instance",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 3,
+                explanation: "The instance block requires an object to execute, but none is created in main. This tests instance block usage."
+            },
+            {
+                question: "What is the scope of y in this code?",
+                code: `public class Test {
+    public void method() {
+        if (true) {
+            int y = 20;
+        }
+        System.out.println(y);
+    }
+}`,
+                options: [
+                    "Method-wide",
+                    "Block-wide",
+                    "Class-wide",
+                    "Compilation error"
+                ],
+                correct: 3,
+                explanation: "y is out of scope outside its block, causing a compilation error when accessed. This tests block scope."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static class Nested {
+        static int x = 15;
+    }
+    public static void main(String[] args) {
+        System.out.println(Nested.x);
+    }
+}`,
+                options: [
+                    "15",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The static nested class Nested allows access to its static variable x. This tests static nested classes."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x = 5;
+    static {
+        x *= 2;
+    }
+    public static void main(String[] args) {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "5",
+                    "10",
+                    "0",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "The static block multiplies x by 2, changing it from 5 to 10. This tests static block initialization."
+            },
+            {
+                question: "Can this method access x?",
+                code: `public class Test {
+    int x = 10;
+    public static void method() {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with this",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "Static methods cannot access instance variables like x without an object. This tests method-variable access."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    {
+        int x = 5;
+        System.out.println(x);
+    }
+    public static void main(String[] args) {
+        new Test();
+    }
+}`,
+                options: [
+                    "5",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The instance block executes when a new Test object is created, printing 5. This tests instance block execution."
+            },
+            {
+                question: "What happens if this code is executed?",
+                code: `public class Test {
+    static {
+        int x = 10;
+    }
+    public static void main(String[] args) {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "10",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "x is local to the static block and inaccessible in main. This tests variable scope."
+            },
+            {
+                question: "What is the scope of z in this code?",
+                code: `public class Test {
+    public static void method() {
+        for (int z = 0; z < 5; z++) {
+        }
+        System.out.println(z);
+    }
+}`,
+                options: [
+                    "Method-wide",
+                    "Block-wide",
+                    "Class-wide",
+                    "Compilation error"
+                ],
+                correct: 3,
+                explanation: "z is out of scope outside the for loop, causing a compilation error. This tests loop variable scope."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("A");
+    }
+    static class Inner {
+    }
+    public static void main(String[] args) {
+    }
+}`,
+                options: [
+                    "A",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 0,
+                explanation: "The static block executes during class loading, printing 'A'. This tests static block with nested classes."
+            },
+            {
+                question: "Can this code compile?",
+                code: `public class Test {
+    static void method() {
+        Test t = new Test();
+        t.instanceMethod();
+    }
+    void instanceMethod() {
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with static",
+                    "Only with final"
+                ],
+                correct: 0,
+                explanation: "The static method creates an instance to call instanceMethod, which is valid. This tests instance method access."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x;
+    {
+        x = 20;
+    }
+    public static void main(String[] args) {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "20",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "The instance block cannot initialize a static variable without an object context. This tests block-variable mismatch."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static int x = 5;
+    public static void main(String[] args) {
+        if (true) {
+            int x = 10;
+        }
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "5",
+                    "10",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The inner x shadows the static x, but the outer x is printed. This tests variable shadowing."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("Static 1");
+    }
+    {
+        System.out.println("Instance");
+    }
+    public static void main(String[] args) {
+        new Test();
+    }
+}`,
+                options: [
+                    "Static 1 Instance",
+                    "Instance Static 1",
+                    "Static 1",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Static block runs at class load, instance block at object creation. This tests execution order."
+            },
+            {
+                question: "Can this static method be called?",
+                code: `public class Test {
+    static void method() {
+        System.out.println("Static");
+    }
+    public static void main(String[] args) {
+        method();
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with object",
+                    "Only with this"
+                ],
+                correct: 0,
+                explanation: "Static methods can be called using the class name or directly in a static context. This tests method invocation."
+            },
+            {
+                question: "What is the scope of y in this code?",
+                code: `public class Test {
+    public void method() {
+        int y = 15;
+        if (true) {
+            int y = 20;
+        }
+        System.out.println(y);
+    }
+}`,
+                options: [
+                    "Method-wide",
+                    "Block-wide",
+                    "Class-wide",
+                    "Compilation error"
+                ],
+                correct: 3,
+                explanation: "Variable shadowing with the same name in nested blocks is not allowed in Java. This tests shadowing rules."
+            },
+            {
+                question: "What happens when this code is executed?",
+                code: `public class Test {
+    static class Nested {
+        static {
+            System.out.println("Nested");
+        }
+    }
+    public static void main(String[] args) {
+    }
+}`,
+                options: [
+                    "Nested",
+                    "Compilation error",
+                    "Runtime exception",
+                    "No output"
+                ],
+                correct: 3,
+                explanation: "The static block in Nested executes only if Nested is loaded, which doesn't happen here. This tests nested static blocks."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x = 10;
+    public static void main(String[] args) {
+        x--;
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "10",
+                    "9",
+                    "0",
+                    "Compilation error"
+                ],
+                correct: 1,
+                explanation: "x-- decrements the static variable from 10 to 9. This tests variable modification."
+            },
+            {
+                question: "Can this code compile?",
+                code: `public class Test {
+    static {
+        new Test().instanceMethod();
+    }
+    void instanceMethod() {
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with static",
+                    "Only with final"
+                ],
+                correct: 0,
+                explanation: "The static block creates an instance to call instanceMethod, which is valid. This tests instance access."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    {
+        int x = 5;
+    }
+    static {
+        System.out.println(x);
+    }
+    public static void main(String[] args) {
+    }
+}`,
+                options: [
+                    "5",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "The static block cannot access x from the instance block. This tests scope separation."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static int x;
+    public static void main(String[] args) {
+        if (x == 0) {
+            int x = 5;
+        }
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "0",
+                    "5",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The inner x shadows the static x, but the outer x (default 0) is printed. This tests shadowing."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("A");
+    }
+    static class Inner {
+        static {
+            System.out.println("B");
+        }
+    }
+    public static void main(String[] args) {
+        new Inner();
+    }
+}`,
+                options: [
+                    "A B",
+                    "B A",
+                    "A",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "A static nested class's static block is executed when the nested class is first used, which happens when new Inner() is called."
+            },
+            {
+                question: "Can this variable be accessed?",
+                code: `public class Test {
+    static int x = 10;
+    public static void main(String[] args) {
+        if (true) {
+            int x = 20;
+        }
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with this",
+                    "Only with static"
+                ],
+                correct: 0,
+                explanation: "The outer static x is in scope, unaffected by the inner x. This tests variable shadowing."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x = 5;
+    {
+        x = 15;
+    }
+    public static void main(String[] args) {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "5",
+                    "15",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 2,
+                explanation: "The instance block cannot modify a static variable without an object. This tests context mismatch."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static class Nested {
+        static int x = 10;
+    }
+    public static void main(String[] args) {
+        Nested.x = 20;
+        System.out.println(Nested.x);
+    }
+}`,
+                options: [
+                    "10",
+                    "20",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The static variable x in Nested is updated to 20 and printed. This tests nested static access."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    {
+        System.out.println("Instance 1");
+    }
+    {
+        System.out.println("Instance 2");
+    }
+    public static void main(String[] args) {
+        new Test();
+    }
+}`,
+                options: [
+                    "Instance 1 Instance 2",
+                    "Instance 2 Instance 1",
+                    "Instance 1",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Instance blocks execute in declaration order per object creation. This tests instance block sequence."
+            },
+            {
+                question: "Can this code compile?",
+                code: `public class Test {
+    static void method() {
+        int x = 5;
+    }
+    public static void main(String[] args) {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with object",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "x is local to method and inaccessible in main. This tests variable scope."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x = 10;
+    public static void main(String[] args) {
+        {
+            int x = 15;
+        }
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "10",
+                    "15",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The inner x is block-scoped, leaving the static x as 10. This tests block scoping."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static {
+        System.out.println("A");
+    }
+    static class Inner {
+        static void method() {
+            System.out.println("B");
+        }
+    }
+    public static void main(String[] args) {
+        Inner.method();
+    }
+}`,
+                options: [
+                    "A B",
+                    "B A",
+                    "A",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "The static block runs at class load, and Inner.method() is called. This tests nested static method execution."
+            },
+            {
+                question: "What is the scope of z in this code?",
+                code: `public class Test {
+    public static void main(String[] args) {
+        while (true) {
+            int z = 5;
+            break;
+        }
+        System.out.println(z);
+    }
+}`,
+                options: [
+                    "Method-wide",
+                    "Block-wide",
+                    "Class-wide",
+                    "Compilation error"
+                ],
+                correct: 3,
+                explanation: "z is out of scope after the while block, causing a compilation error. This tests loop scope."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static int x = 5;
+    public static void main(String[] args) {
+        Test t = new Test();
+        t.instanceMethod();
+    }
+    void instanceMethod() {
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "5",
+                    "0",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 0,
+                explanation: "The instance method accesses the static x via the object. This tests static access in instances."
+            },
+            {
+                question: "Can this code compile?",
+                code: `public class Test {
+    static {
+        int x = 5;
+    }
+    static class Inner {
+        void method() {
+            System.out.println(x);
+        }
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with static",
+                    "Only with object"
+                ],
+                correct: 1,
+                explanation: "x is local to the static block and inaccessible in Inner. This tests scope isolation."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("Static");
+    }
+    public static void main(String[] args) {
+        System.out.println("Main");
+        new Test();
+    }
+    {
+        System.out.println("Instance");
+    }
+}`,
+                options: [
+                    "Static Main Instance",
+                    "Static Instance Main",
+                    "Main Static Instance",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "Static block runs at class load, main prints 'Main', and instance block runs with object creation. This tests execution order."
+            },
+            {
+                question: "What happens when this code runs?",
+                code: `public class Test {
+    static int x = 10;
+    public static void main(String[] args) {
+        {
+            x = 20;
+        }
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "10",
+                    "20",
+                    "Compilation error",
+                    "Runtime exception"
+                ],
+                correct: 1,
+                explanation: "The inner block reassigns x to 20, which is printed. This tests block-level modification."
+            },
+            {
+                question: "What is the output of this code?",
+                code: `public class Test {
+    static {
+        System.out.println("Outer");
+    }
+    static class Nested {
+        static {
+            System.out.println("Nested");
+        }
+    }
+    public static void main(String[] args) {
+        new Nested();
+    }
+}`,
+                options: [
+                    "Outer Nested",
+                    "Nested Outer",
+                    "Outer",
+                    "Compilation error"
+                ],
+                correct: 0,
+                explanation: "A static nested class's static block is executed when the nested class is first used, which happens when new Nested() is called. Therefore, the output should be both 'Outer' and 'Nested'."
+            },
+            {
+                question: "Can this variable be modified?",
+                code: `public class Test {
+    static final int x = 5;
+    public static void main(String[] args) {
+        x = 10;
+        System.out.println(x);
+    }
+}`,
+                options: [
+                    "Yes",
+                    "No",
+                    "Only with object",
+                    "Only with static"
+                ],
+                correct: 1,
+                explanation: "final static variables cannot be reassigned after initialization. This tests modifier rules."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let codeBlock = '';
+            if (question.code) {
+                codeBlock = `<div class="code-block">${question.code}</div>`;
+            }
+            
+            container.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                ${codeBlock}
+                <div class="options-container">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="answer" value="${index}" id="option${index}">
+                            <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
+                    <button class="btn btn-success" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+                </div>
+                <div class="answer-section" id="answerSection">
+                    <h4>✅ Correct Answer: ${String.fromCharCode(97 + question.correct)}) ${question.options[question.correct]}</h4>
+                    <div class="explanation"><strong>Explanation:</strong> ${question.explanation}</div>
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                    <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+                    ${currentQuestion === questions.length - 1 ? '<button class="btn btn-success" onclick="finishQuiz()" id="finishBtn" style="display:none;">Finish Quiz</button>' : ''}
+                </div>
+            `;
+            
+            answered = false;
+            updateProgress();
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                selectOption(userAnswers[currentQuestion]);
+                showAnswer();
+            }
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`#option${index}`).checked = true;
+            document.querySelector(`#option${index}`).parentElement.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Store user answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            if (!answered) {
+                if (selectedIndex === correctIndex) {
+                    score++;
+                    updateScore();
+                }
+                answered = true;
+            }
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show answer section and enable next button
+            document.getElementById('answerSection').classList.add('show');
+            document.getElementById('showAnswerBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = score;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('percentage').textContent = `(${percentage}%)`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((score / questions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have mastered Java Variables and Static Concepts! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Great job! You have a solid understanding of the topic. 👏';
+            } else if (percentage >= 60) {
+                message = 'Good work! Consider reviewing the concepts you missed. 📚';
+            } else {
+                message = 'Keep practicing! Review the explanations and try again. 💪';
+            }
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length} (${percentage}%)`;
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('quizComplete').classList.add('show');
+            document.getElementById('questionContainer').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            userAnswers = [];
+            updateScore();
+            document.getElementById('quizComplete').classList.remove('show');
+            document.getElementById('questionContainer').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
