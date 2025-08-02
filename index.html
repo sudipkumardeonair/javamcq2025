@@ -4,34 +4,505 @@
     <meta charset="UTF-8">
     <title>Java MCQ Index</title>
     <style>
-        body  { font-family: Arial, sans-serif; margin: 40px; }
-        h1    { color: #0056b3; }
-        ul    { list-style-type: none; padding: 0; }
-        li    { margin: 6px 0; }
-        a     { text-decoration: none; color: #007acc; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        .chapter-link {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .chapter-link:hover {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .chapter-link:hover::before {
+            left: 100%;
+        }
+
+        .chapter-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1.1em;
+            margin: 20px 0;
+            text-align: center;
+            font-family: monospace;
+            letter-spacing: 2px;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .success-message {
+            color: #27ae60;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .lock-icon {
+            display: inline-block;
+            margin-right: 10px;
+            opacity: 0.6;
+        }
+
+        .attribution {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .chapter-link {
+                padding: 15px;
+                font-size: 1em;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Java MCQ – Chapter Index</h1>
-    <ul>
-        <li><a href="CHAPTER01.html" target="_blank">Chapter 1 – Identifiers, Rules, Naming Conventions, Data Types</a></li>
-        <li><a href="CHAPTER02.html" target="_blank">Chapter 2 – Operators, Precedence, Arrays, Command-Line Arguments</a></li>
-        <li><a href="CHAPTER03.html" target="_blank">Chapter 3 – Variables, Static Methods, Static Blocks, Scope</a></li>
-        <li><a href="CHAPTER04.html" target="_blank">Chapter 4 – Constructors, Method Overloading, Constructor Chaining</a></li>
-        <li><a href="CHAPTER05.html" target="_blank">Chapter 5 – Inheritance: Single, Multilevel, Hierarchical, Hybrid, Multiple</a></li>
-        <li><a href="CHAPTER06.html" target="_blank">Chapter 6 – Dynamic Polymorphism: Method Overriding, Access Specifiers, super</a></li>
-        <li><a href="CHAPTER07.html" target="_blank">Chapter 7 – Upcasting & Downcasting, final Keyword</a></li>
-        <li><a href="CHAPTER08.html" target="_blank">Chapter 8 – Abstract Methods & Classes</a></li>
-        <li><a href="CHAPTER09.html" target="_blank">Chapter 9 – Interface, Rules, Members, Java 8/9 Features</a></li>
-        <li><a href="CHAPTER10.html" target="_blank">Chapter 10 – Nested Classes & Interfaces</a></li>
-        <li><a href="CHAPTER11.html" target="_blank">Chapter 11 – Packages & Wrapper Classes</a></li>
-        <li><a href="CHAPTER12.html" target="_blank">Chapter 12 – Collection Framework</a></li>
-        <li><a href="CHAPTER13.html" target="_blank">Chapter 13 – Generics in Java</a></li>
-        <li><a href="CHAPTER14.html" target="_blank">Chapter 14 – Exception Handling</a></li>
-        <li><a href="CHAPTER15.html" target="_blank">Chapter 15 – String & StringBuffer</a></li>
-        <li><a href="CHAPTER16.html" target="_blank">Chapter 16 – Java Threads</a></li>
-        <li><a href="CHAPTER17.html" target="_blank">Chapter 17 – Garbage Collection & Memory Management</a></li>
-    </ul>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Java MCQ – Chapter Index</h1>
+        </div>
+        
+        <div class="content">
+            <ul>
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER01.html', 'SKD2025', 'Chapter 1')">
+                    <span class="chapter-number">Chapter 1</span>
+                    <span class="lock-icon">🔐</span>
+                    Identifiers, Rules, Naming Conventions, Data Types
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER02.html', 'BD7539', 'Chapter 2')">
+                    <span class="chapter-number">Chapter 2</span>
+                    <span class="lock-icon">🔐</span>
+                    Operators, Precedence, Arrays, Command-Line Arguments
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER03.html', 'DAY9857', 'Chapter 3')">
+                    <span class="chapter-number">Chapter 3</span>
+                    <span class="lock-icon">🔐</span>
+                    Variables, Static Methods, Static Blocks, Scope
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER04.html', 'EON4455', 'Chapter 4')">
+                    <span class="chapter-number">Chapter 4</span>
+                    <span class="lock-icon">🔐</span>
+                    Constructors, Method Overloading, Constructor Chaining
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER05.html', 'FAY2024', 'Chapter 5')">
+                    <span class="chapter-number">Chapter 5</span>
+                    <span class="lock-icon">🔐</span>
+                    Inheritance: Single, Multilevel, Hierarchical, Hybrid, Multiple
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER06.html', 'HERO465', 'Chapter 6')">
+                    <span class="chapter-number">Chapter 6</span>
+                    <span class="lock-icon">🔐</span>
+                    Dynamic Polymorphism: Method Overriding, Access Specifiers, super
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER07.html', 'JD1234', 'Chapter 7')">
+                    <span class="chapter-number">Chapter 7</span>
+                    <span class="lock-icon">🔐</span>
+                    Upcasting & Downcasting, final Keyword
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER08.html', 'JET5678', 'Chapter 8')">
+                    <span class="chapter-number">Chapter 8</span>
+                    <span class="lock-icon">🔐</span>
+                    Abstract Methods & Classes
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER09.html', 'JIA1011', 'Chapter 9')">
+                    <span class="chapter-number">Chapter 9</span>
+                    <span class="lock-icon">🔐</span>
+                    Interface, Rules, Members, Java 8/9 Features
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER10.html', 'LEO1982', 'Chapter 10')">
+                    <span class="chapter-number">Chapter 10</span>
+                    <span class="lock-icon">🔐</span>
+                    Nested Classes & Interfaces
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER11.html', 'LUX9101', 'Chapter 11')">
+                    <span class="chapter-number">Chapter 11</span>
+                    <span class="lock-icon">🔐</span>
+                    Packages & Wrapper Classes
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER12.html', 'PAX5432', 'Chapter 12')">
+                    <span class="chapter-number">Chapter 12</span>
+                    <span class="lock-icon">🔐</span>
+                    Collection Framework
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER13.html', 'RAJ9856', 'Chapter 13')">
+                    <span class="chapter-number">Chapter 13</span>
+                    <span class="lock-icon">🔐</span>
+                    Generics in Java
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER14.html', 'REX7865', 'Chapter 14')">
+                    <span class="chapter-number">Chapter 14</span>
+                    <span class="lock-icon">🔐</span>
+                    Exception Handling
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER15.html', 'RIA7890', 'Chapter 15')">
+                    <span class="chapter-number">Chapter 15</span>
+                    <span class="lock-icon">🔐</span>
+                    String & StringBuffer
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER16.html', 'AD2437', 'Chapter 16')">
+                    <span class="chapter-number">Chapter 16</span>
+                    <span class="lock-icon">🔐</span>
+                    Java Threads
+                </a></li>
+                
+                <li><a href="#" class="chapter-link" onclick="requestPassword('CHAPTER17.html', 'SKY2233', 'Chapter 17')">
+                    <span class="chapter-number">Chapter 17</span>
+                    <span class="lock-icon">🔐</span>
+                    Garbage Collection & Memory Management
+                </a></li>
+            </ul>
+        </div>
+
+        <div class="attribution">
+            Compiled by Mr. Sudip Kumar De
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">🔐 Enter Password</h3>
+            </div>
+            <div class="modal-body">
+                <p>Please enter the password to access <strong id="chapterName"></strong>:</p>
+                <input type="password" id="passwordInput" class="password-input" placeholder="Enter password..." maxlength="20">
+                <div class="modal-buttons">
+                    <button class="modal-btn btn-primary" onclick="checkPassword()">Access Chapter</button>
+                    <button class="modal-btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+                <div id="errorMessage" class="error-message">❌ Incorrect password. Please try again.</div>
+                <div id="successMessage" class="success-message">✅ Access granted! Opening chapter...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUrl = '';
+        let correctPassword = '';
+
+        function requestPassword(url, password, chapterName) {
+            currentUrl = url;
+            correctPassword = password;
+            document.getElementById('chapterName').textContent = chapterName;
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+            
+            // Reset messages
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMessage');
+            const successMsg = document.getElementById('successMessage');
+
+            if (enteredPassword === correctPassword) {
+                // Success
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'block';
+                
+                // Open the chapter in a new tab after a short delay
+                setTimeout(() => {
+                    window.open(currentUrl, '_blank');
+                    closeModal();
+                }, 1000);
+            } else {
+                // Error
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+                
+                // Add shake animation to input
+                const input = document.getElementById('passwordInput');
+                input.style.animation = 'none';
+                setTimeout(() => {
+                    input.style.animation = 'shake 0.5s ease-in-out';
+                }, 10);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Handle Enter key press in password input
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Handle Escape key to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Prevent right-click context menu (optional security measure)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable common developer shortcuts (optional security measure)
+        document.addEventListener('keydown', function(e) {
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || 
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
