@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java Packages & Wrapper Classes Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-600: #1d4ed8;
+      --green: #d4edda;
+      --red: #f8d7da;
+      --border: #e5e7eb;
+    }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 32px 16px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .stats {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .q-meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .question {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      font-size: 15px;
+    }
+    .option-btn:hover:not([disabled]) {
+      border-color: #cbd5e1;
+      background: #fafafa;
+    }
+    .option-btn[disabled] {
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+    .option-btn.correct {
+      background: var(--green);
+      border-color: #b7dfc4;
+    }
+    .option-btn.wrong {
+      background: var(--red);
+      border-color: #f1b0b7;
+    }
+    .explanation {
+      padding: 12px 14px;
+      background: #f3f4f6;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #374151;
+      display: none;
+      white-space: pre-wrap;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 160ms ease, opacity 160ms ease;
+    }
+    .btn:hover:not([disabled]) {
+      background: var(--primary-600);
+    }
+    .btn.secondary {
+      background: #fff;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .footer {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .result {
+      text-align: center;
+      padding: 28px 18px;
+    }
+    .result h2 { margin: 0 0 6px; }
+    .result .score {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .hidden { display: none !important; }
+    @media (min-width: 720px) {
+      .options { gap: 12px; }
+      .question { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">Java Packages & Wrapper Classes Quiz</div>
+      <div class="stats">
+        <div id="progress">Question 1 / 30</div>
+        <div id="score">Score: 0</div>
+      </div>
+    </div>
+
+    <div id="quizCard" class="card">
+      <div class="q-meta" id="qMeta">Pick the best answer</div>
+      <div class="question" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="controls">
+        <button id="showBtn" class="btn secondary">Show Answer</button>
+        <button id="nextBtn" class="btn" disabled>Next Question</button>
+      </div>
+      <div class="footer" id="footerNote">Select an option or click Show Answer to enable Next Question.</div>
+    </div>
+
+    <div id="resultCard" class="card hidden">
+      <div class="result">
+        <h2>Quiz Finished</h2>
+        <div class="score" id="finalScore"></div>
+        <button id="restartBtn" class="btn">Restart Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Quiz data: 30 MCQs on Java Packages & Wrapper Classes
+    const QUESTIONS = [
+      {
+        q: "Where must a package declaration appear in a Java source file?",
+        options: [
+          "It can appear anywhere in the file.",
+          "It must be the very first line in the file.",
+          "It must come after all import statements.",
+          "It is optional but, if present, must follow class declarations."
+        ],
+        correctIndex: 1,
+        explanation: "A package statement, if present, must be the first line in the source file."
+      },
+      {
+        q: "How many package statements are allowed per compilation unit?",
+        options: [
+          "One or more, depending on the number of classes.",
+          "Exactly one.",
+          "Zero or one, never more than one.",
+          "Any number; the compiler merges them."
+        ],
+        correctIndex: 2,
+        explanation: "A compilation unit can have zero or one package declaration; never more than one."
+      },
+      {
+        q: "If a source file has no package statement, the types within are placed in which package?",
+        options: [
+          "java.lang",
+          "the unnamed (default) package",
+          "the root package",
+          "a module’s base package"
+        ],
+        correctIndex: 1,
+        explanation: "Absence of a package declaration puts types in the unnamed (default) package."
+      },
+      {
+        q: "Can a type from the unnamed package be imported into a named package?",
+        options: [
+          "Yes, using import *.",
+          "Yes, but only with static import.",
+          "No, importing from the unnamed package is a compile-time error.",
+          "Yes, when both are in the same module."
+        ],
+        correctIndex: 2,
+        explanation: "The Java Language Specification disallows importing types from the unnamed package."
+      },
+      {
+        q: "Does importing java.util.* also import types from java.util.concurrent?",
+        options: [
+          "Yes, subpackages are included.",
+          "No, subpackages are not imported by on-demand imports.",
+          "Yes, but only public types.",
+          "Only when using static import."
+        ],
+        correctIndex: 1,
+        explanation: "On-demand imports only include types directly in the specified package, not its subpackages."
+      },
+      {
+        q: "What is the relationship between a package and its “subpackage” (e.g., p and p.q)?",
+        options: [
+          "Subpackages inherit package-private access from parent.",
+          "Subpackages are distinct; no special access relationship exists.",
+          "Subpackages can see private members of parent.",
+          "Subpackages automatically export parent members."
+        ],
+        correctIndex: 1,
+        explanation: "Hierarchical naming is organizational; subpackages are distinct packages without special access."
+      },
+      {
+        q: "Which access is provided by package-private (no modifier) members?",
+        options: [
+          "Accessible anywhere in the application.",
+          "Accessible in the same package only.",
+          "Accessible in subpackages only.",
+          "Accessible in subclasses only."
+        ],
+        correctIndex: 1,
+        explanation: "Package-private members are accessible only within their own package."
+      },
+      {
+        q: "Which package is implicitly imported into every Java source file?",
+        options: [
+          "java.util",
+          "java.io",
+          "java.lang",
+          "java.base"
+        ],
+        correctIndex: 2,
+        explanation: "java.lang is implicitly imported into every source file."
+      },
+      {
+        q: "What is package-info.java used for?",
+        options: [
+          "To list module dependencies.",
+          "To provide package-level Javadoc and annotations.",
+          "To auto-export packages.",
+          "To configure static imports."
+        ],
+        correctIndex: 1,
+        explanation: "package-info.java holds package-level documentation and annotations."
+      },
+      {
+        q: "How many public top-level types can a compilation unit declare?",
+        options: [
+          "Any number.",
+          "Exactly one, and it must match the file name.",
+          "Exactly one, name independent of file.",
+          "None; only nested types can be public."
+        ],
+        correctIndex: 1,
+        explanation: "Only one public top-level type is allowed, and its name must match the source file."
+      },
+      {
+        q: "Which kinds of types can be declared in a package?",
+        options: [
+          "Only classes and interfaces.",
+          "Classes, interfaces, enums, and annotation types.",
+          "Only classes and enums.",
+          "Only interfaces and annotations."
+        ],
+        correctIndex: 1,
+        explanation: "Packages can contain classes, interfaces, enumerations, and annotation types."
+      },
+      {
+        q: "Which is true about unnamed packages in production code?",
+        options: [
+          "Recommended for libraries.",
+          "Recommended only for small or temporary apps.",
+          "Required by modules.",
+          "Needed for service providers."
+        ],
+        correctIndex: 1,
+        explanation: "Unnamed packages are generally only for small or temporary applications."
+      },
+      {
+        q: "Which statement about import declarations is correct?",
+        options: [
+          "import can bring in subpackages with *.",
+          "import can only bring in types (and static members with static import), not subpackages.",
+          "import can bring in files by path.",
+          "import can bring in modules."
+        ],
+        correctIndex: 1,
+        explanation: "import targets types; it cannot import subpackages."
+      },
+      {
+        q: "How are name conflicts resolved when two packages define a type with the same simple name?",
+        options: [
+          "Java automatically picks the latest imported one.",
+          "Use the fully qualified name to disambiguate.",
+          "Use aliasing in import.",
+          "The compiler rejects both packages."
+        ],
+        correctIndex: 1,
+        explanation: "Use fully qualified names when types with the same simple name conflict."
+      },
+      {
+        q: "What is the correct order of declarations at the top of a Java source file?",
+        options: [
+          "imports, package, types",
+          "package, imports, types",
+          "types, package, imports",
+          "package, types, imports"
+        ],
+        correctIndex: 1,
+        explanation: "The order is: package declaration, then imports, then type declarations."
+      },
+      {
+        q: "What do wrapper classes provide in Java?",
+        options: [
+          "Mutable primitives",
+          "Object representations of primitive types",
+          "Faster arithmetic than primitives",
+          "Direct memory access to primitives"
+        ],
+        correctIndex: 1,
+        explanation: "Wrapper classes are object counterparts to primitives."
+      },
+      {
+        q: "What is autoboxing?",
+        options: [
+          "Casting reference types to primitives automatically",
+          "Automatic conversion from primitive to corresponding wrapper",
+          "Automatic promotion from int to long",
+          "Automatic unwrapping of wrapper to primitive"
+        ],
+        correctIndex: 1,
+        explanation: "Autoboxing converts primitives to their wrapper objects when needed."
+      },
+      {
+        q: "What is unboxing?",
+        options: [
+          "Automatically converting a wrapper to its primitive value",
+          "Removing generics from a collection",
+          "Casting an object to String",
+          "Promoting int to double"
+        ],
+        correctIndex: 0,
+        explanation: "Unboxing converts wrapper objects back to primitive values."
+      },
+      {
+        q: "Why are wrapper classes often used with collections?",
+        options: [
+          "Collections store only primitives.",
+          "Collections store objects; primitives are boxed into wrappers.",
+          "Collections auto-convert objects to primitives.",
+          "Collections require arrays internally."
+        ],
+        correctIndex: 1,
+        explanation: "Collections operate on objects, so primitives are autoboxed into wrappers."
+      },
+      {
+        q: "What happens when unboxing a null reference (e.g., Integer x = null; int y = x;)?",
+        options: [
+          "y becomes 0 silently.",
+          "A NullPointerException is thrown.",
+          "The compiler rejects it.",
+          "y becomes -1."
+        ],
+        correctIndex: 1,
+        explanation: "Unboxing null causes a NullPointerException at runtime."
+      },
+      {
+        q: "Which statement about Integer caching is correct?",
+        options: [
+          "Integer.valueOf does not cache any values.",
+          "Integer.valueOf may return cached instances for commonly used small values.",
+          "new Integer uses caches for small values.",
+          "Caching applies only to negative numbers."
+        ],
+        correctIndex: 1,
+        explanation: "Integer.valueOf may return cached instances for small integers to reduce allocations."
+      },
+      {
+        q: "Comparing two Integer objects with == can yield which outcome?",
+        options: [
+          "Always true if numeric values match.",
+          "Always false unless same reference by new.",
+          "True for certain small values due to caching; otherwise may be false.",
+          "True only for negatives."
+        ],
+        correctIndex: 2,
+        explanation: "== compares references; cached small values can make references equal despite different expressions."
+      },
+      {
+        q: "Which practice is recommended when creating wrapper instances in modern Java?",
+        options: [
+          "Prefer new Integer(5) over Integer.valueOf(5).",
+          "Prefer Integer.valueOf(5) over new Integer(5).",
+          "Always use constructors for clarity.",
+          "Avoid wrappers entirely."
+        ],
+        correctIndex: 1,
+        explanation: "Prefer valueOf to leverage caching and avoid unnecessary object creation."
+      },
+      {
+        q: "What is the status of primitive wrapper constructors (e.g., new Integer(int)) in recent Java versions?",
+        options: [
+          "Not deprecated.",
+          "Deprecated since Java 9; previously flagged \"for removal\" under JEP 390.",
+          "Removed in Java 17.",
+          "Experimental feature."
+        ],
+        correctIndex: 1,
+        explanation: "Wrapper constructors were deprecated in Java 9 and were previously marked 'for removal' by JEP 390."
+      },
+      {
+        q: "What change was proposed in 2025 about the “for removal” deprecation of wrapper constructors?",
+        options: [
+          "Strengthen to immediate removal.",
+          "Revert to simple deprecation (no longer “for removal”).",
+          "Mark as preview features.",
+          "Make them public final."
+        ],
+        correctIndex: 1,
+        explanation: "The proposal approved reverting 'for removal' status to simple deprecation."
+      },
+      {
+        q: "When retrieving an Integer from a collection and needing an int, what should be done?",
+        options: [
+          "Cast directly to int.",
+          "Use unboxing (e.g., int x = integerObj or intValue()).",
+          "Use parseInt on toString.",
+          "Use reflection."
+        ],
+        correctIndex: 1,
+        explanation: "Unbox implicitly via assignment or explicitly via intValue() to obtain a primitive."
+      },
+      {
+        q: "Which operation triggers autoboxing?",
+        options: [
+          "Assigning an int literal to an Integer variable.",
+          "Assigning an Integer to an int variable.",
+          "Casting Object to int.",
+          "Converting String to int."
+        ],
+        correctIndex: 0,
+        explanation: "Assigning a primitive to a wrapper variable triggers autoboxing."
+      },
+      {
+        q: "Which operation triggers unboxing?",
+        options: [
+          "Passing Integer to a method expecting Object.",
+          "Using an Integer in arithmetic with primitives (e.g., Integer + 1).",
+          "Assigning int to Integer.",
+          "Concatenating Integer with String."
+        ],
+        correctIndex: 1,
+        explanation: "Numeric operations require primitives, so wrappers are unboxed."
+      },
+      {
+        q: "Why can’t primitives be used as type parameters in generics?",
+        options: [
+          "JVM limitation unrelated to generics.",
+          "Generics work with reference types; primitives must be boxed.",
+          "Primitives are faster.",
+          "Primitives have no methods."
+        ],
+        correctIndex: 1,
+        explanation: "Generics require reference types; primitives are boxed into wrappers for use with generics."
+      },
+      {
+        q: "Which is a correct statement about import and packages?",
+        options: [
+          "import can import a package to make subpackages visible.",
+          "import brings specific types (or static members) into scope; it cannot import packages themselves.",
+          "import loads classes at runtime.",
+          "import is required for java.lang."
+        ],
+        correctIndex: 1,
+        explanation: "import brings specific types or static members into scope; it does not import packages or subpackages."
+      }
+    ];
+
+    // DOM elements
+    const progressEl = document.getElementById('progress');
+    const scoreEl = document.getElementById('score');
+    const questionTextEl = document.getElementById('questionText');
+    const optionsContainerEl = document.getElementById('optionsContainer');
+    const explanationEl = document.getElementById('explanation');
+    const showBtn = document.getElementById('showBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const quizCard = document.getElementById('quizCard');
+    const resultCard = document.getElementById('resultCard');
+    const finalScoreEl = document.getElementById('finalScore');
+    const restartBtn = document.getElementById('restartBtn');
+
+    // State
+    let index = 0;
+    let score = 0;
+    let answeredThis = false;  // whether this question has been resolved (selected or revealed)
+    let credited = false;      // whether score was credited for this question
+
+    function renderQuestion() {
+      const total = QUESTIONS.length;
+      const { q, options } = QUESTIONS[index];
+
+      // Update top stats
+      progressEl.textContent = `Question ${index + 1} / ${total}`;
+      scoreEl.textContent = `Score: ${score}`;
+
+      // Populate question
+      questionTextEl.textContent = q;
+
+      // Reset explanation and controls
+      explanationEl.textContent = '';
+      explanationEl.style.display = 'none';
+      showBtn.disabled = false;
+      nextBtn.disabled = true;
+
+      // Clear and render options
+      optionsContainerEl.innerHTML = '';
+      options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.type = 'button';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => onSelect(i, btn));
+        optionsContainerEl.appendChild(btn);
+      });
+
+      // Reset flags
+      answeredThis = false;
+      credited = false;
+      // If last question, label next as "Finish"; else "Next Question"
+      nextBtn.textContent = index === total - 1 ? 'Finish' : 'Next Question';
+    }
+
+    function disableOptions() {
+      const buttons = optionsContainerEl.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+    }
+
+    function markCorrectAndWrong(selectedIdx = null) {
+      const buttons = optionsContainerEl.querySelectorAll('.option-btn');
+      const correctIdx = QUESTIONS[index].correctIndex;
+      buttons.forEach((b, i) => {
+        if (i === correctIdx) {
+          b.classList.add('correct');
+        }
+        if (selectedIdx !== null && i === selectedIdx && selectedIdx !== correctIdx) {
+          b.classList.add('wrong');
+        }
+      });
+    }
+
+    function showExplanation() {
+      explanationEl.textContent = QUESTIONS[index].explanation;
+      explanationEl.style.display = 'block';
+    }
+
+    function onSelect(choiceIdx, btnEl) {
+      if (answeredThis) return;
+
+      const correctIdx = QUESTIONS[index].correctIndex;
+
+      // Color feedback
+      if (choiceIdx === correctIdx) {
+        btnEl.classList.add('correct');
+        if (!credited) {
+          score += 1;
+          credited = true;
+          scoreEl.textContent = `Score: ${score}`;
+        }
+      } else {
+        btnEl.classList.add('wrong');
+      }
+
+      // Reveal correct, lock, show explanation
+      markCorrectAndWrong(choiceIdx);
+      disableOptions();
+      showExplanation();
+
+      // Enable next
+      nextBtn.disabled = false;
+      answeredThis = true;
+
+      // After a selection, no reason to show answer again
+      showBtn.disabled = true;
+    }
+
+    showBtn.addEventListener('click', () => {
+      if (answeredThis) return;
+      // Reveal correct answer without awarding points
+      markCorrectAndWrong(null);
+      disableOptions();
+      showExplanation();
+      nextBtn.disabled = false;
+      answeredThis = true;
+      showBtn.disabled = true;
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (!answeredThis) return; // Guard: must answer or show first
+      const last = index === QUESTIONS.length - 1;
+      if (!last) {
+        index += 1;
+        renderQuestion();
+      } else {
+        // Finish
+        quizCard.classList.add('hidden');
+        resultCard.classList.remove('hidden');
+        finalScoreEl.textContent = `You scored ${score} out of ${QUESTIONS.length}.`;
+      }
+    });
+
+    restartBtn.addEventListener('click', () => {
+      // Reset and start over
+      index = 0;
+      score = 0;
+      quizCard.classList.remove('hidden');
+      resultCard.classList.add('hidden');
+      renderQuestion();
+    });
+
+    // Initialize
+    renderQuestion();
+  </script>
+</body>
+</html>
